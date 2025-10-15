@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import '../widgets/glass_container.dart';
+import 'dashboard_page.dart';
 import 'login_page.dart';
 
-/// Halaman Profile pengguna
-/// Menampilkan info pengguna dan menu pengaturan
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  int _currentIndex = 1; // posisi aktif di Profile
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // Background gradient
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -28,7 +33,7 @@ class ProfilePage extends StatelessWidget {
             children: [
               // Header dengan tombol back
               Padding(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Row(
                   children: [
                     GlassContainer(
@@ -36,12 +41,18 @@ class ProfilePage extends StatelessWidget {
                       opacity: 0.15,
                       borderRadius: BorderRadius.circular(15),
                       child: IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.white),
-                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const DashboardPage()),
+                          );
+                        },
                       ),
                     ),
-                    SizedBox(width: 15),
-                    Text(
+                    const SizedBox(width: 15),
+                    const Text(
                       'Profile',
                       style: TextStyle(
                         color: Colors.white,
@@ -53,16 +64,16 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-              // Avatar pengguna dari asset image
+              // Avatar pengguna
               GlassContainer(
                 blur: 15,
                 opacity: 0.2,
                 borderRadius: BorderRadius.circular(100),
                 child: Container(
-                  padding: EdgeInsets.all(8),
-                  child: CircleAvatar(
+                  padding: const EdgeInsets.all(8),
+                  child: const CircleAvatar(
                     radius: 60,
                     backgroundImage: AssetImage('assets/profilee.jpg'),
                     backgroundColor: Colors.white,
@@ -70,10 +81,10 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Nama pengguna
-              Text(
+              const Text(
                 'Fuad Abdul Baqi',
                 style: TextStyle(
                   color: Colors.white,
@@ -82,10 +93,10 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
 
               // Email pengguna
-              Text(
+              const Text(
                 'fuadbaqi910@gmail.com',
                 style: TextStyle(
                   color: Colors.white70,
@@ -93,12 +104,12 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
 
               // Menu pengaturan
               Expanded(
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30),
@@ -106,60 +117,34 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   child: ListView(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     children: [
                       _buildMenuItem(
-                        context,
                         Icons.person_outline,
                         'Edit Profile',
                         'Update your personal information',
                       ),
-                      _buildMenuItem(
-                        context,
-                        Icons.security,
-                        'Security',
-                        'Change password and PIN',
-                      ),
-                      _buildMenuItem(
-                        context,
-                        Icons.notifications_outlined,
-                        'Notifications',
-                        'Manage notification preferences',
-                      ),
-                      _buildMenuItem(
-                        context,
-                        Icons.help_outline,
-                        'Help Center',
-                        'Get help and support',
-                      ),
-                      _buildMenuItem(
-                        context,
-                        Icons.info_outline,
-                        'About',
-                        'Version 1.0.0',
-                      ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
                       // Tombol Logout
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         child: OutlinedButton.icon(
                           onPressed: () {
-                            // Kembali ke halaman login dan hapus semua route
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => LoginPage(),
-                              ),
+                                  builder: (_) => const LoginPage()),
                               (route) => false,
                             );
                           },
-                          icon: Icon(Icons.logout),
-                          label: Text('Logout'),
+                          icon: const Icon(Icons.logout),
+                          label: const Text('Logout'),
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.red,
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            side: BorderSide(color: Colors.red, width: 2),
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            side:
+                                const BorderSide(color: Colors.red, width: 2),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -174,38 +159,33 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
       ),
+
+      // ✅ Tambahkan Bottom Navigation
+      bottomNavigationBar: _buildBottomNav(context),
     );
   }
 
-  /// Widget untuk membuat item menu di profile
-  Widget _buildMenuItem(
-    BuildContext context,
-    IconData icon,
-    String title,
-    String subtitle,
-  ) {
+  Widget _buildMenuItem(IconData icon, String title, String subtitle) {
     return Container(
-      margin: EdgeInsets.only(bottom: 15),
+      margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
         color: Colors.grey[50],
         borderRadius: BorderRadius.circular(15),
       ),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         leading: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Color(0xFF1E88E5).withOpacity(0.1),
+            color: const Color(0xFF1E88E5).withOpacity(0.1),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(
-            icon,
-            color: Color(0xFF1E88E5),
-          ),
+          child: Icon(icon, color: const Color(0xFF1E88E5)),
         ),
         title: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
             color: Colors.black87,
@@ -218,13 +198,31 @@ class ProfilePage extends StatelessWidget {
             color: Colors.grey[600],
           ),
         ),
-        trailing: Icon(
-          Icons.arrow_forward_ios,
-          size: 16,
-          color: Colors.grey[400],
-        ),
+        trailing: Icon(Icons.arrow_forward_ios,
+            size: 16, color: Colors.grey[400]),
         onTap: () {},
       ),
     );
   }
+
+  /// 🔹 Bottom Navigation Bar
+  Widget _buildBottomNav(BuildContext context) => BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (i) {
+          if (i == 0) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const DashboardPage()),
+            );
+          }
+          setState(() => _currentIndex = i);
+        },
+        selectedItemColor: const Color(0xFF1E88E5),
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        ],
+      );
 }
