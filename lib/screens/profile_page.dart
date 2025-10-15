@@ -106,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
               const SizedBox(height: 30),
 
-              // Menu pengaturan
+              // Biodata
               Expanded(
                 child: Container(
                   decoration: const BoxDecoration(
@@ -119,12 +119,62 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: ListView(
                     padding: const EdgeInsets.all(20),
                     children: [
-                      _buildMenuItem(
-                        Icons.person_outline,
-                        'Edit Profile',
-                        'Update your personal information',
+                      GlassContainer(
+                        blur: 10,
+                        opacity: 0.1,
+                        borderRadius: BorderRadius.circular(20),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                'Biodata',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              _BiodataItem(
+                                label: 'Nama Lengkap',
+                                value: 'Fuad Abdul Baqi',
+                              ),
+                              _BiodataItem(
+                                label: 'Tempat, Tanggal Lahir',
+                                value: 'Natar, 20 Mei 2006',
+                              ),
+                              _BiodataItem(
+                                label: 'Jenis Kelamin',
+                                value: 'Laki-laki',
+                              ),
+                              _BiodataItem(
+                                label: 'Pendidikan',
+                                value: 'Mahasiswa - Universitas Lampung',
+                              ),
+                              _BiodataItem(
+                                label: 'NIM',
+                                value: '2307051021',
+                              ),
+                              _BiodataItem(
+                                label: 'Fakultas',
+                                value: 'FMIPA',
+                              ),
+                              _BiodataItem(
+                                label: 'Jurusan',
+                                value: 'Ilmu Komputer',
+                              ),
+                              _BiodataItem(
+                                label: 'Prodi',
+                                value: 'D3 Manajemen Informatika',
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      const SizedBox(height: 20),
+
+                      const SizedBox(height: 30),
 
                       // Tombol Logout
                       SizedBox(
@@ -160,52 +210,12 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
 
-      // ✅ Tambahkan Bottom Navigation
+      // Bottom Navigation
       bottomNavigationBar: _buildBottomNav(context),
     );
   }
 
-  Widget _buildMenuItem(IconData icon, String title, String subtitle) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 15),
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: ListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        leading: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: const Color(0xFF1E88E5).withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(icon, color: const Color(0xFF1E88E5)),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
-          ),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
-          ),
-        ),
-        trailing: Icon(Icons.arrow_forward_ios,
-            size: 16, color: Colors.grey[400]),
-        onTap: () {},
-      ),
-    );
-  }
-
-  /// 🔹 Bottom Navigation Bar
+  // Bottom Navigation Bar
   Widget _buildBottomNav(BuildContext context) => BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (i) {
@@ -225,4 +235,41 @@ class _ProfilePageState extends State<ProfilePage> {
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       );
+}
+
+// Widget kecil untuk item biodata
+class _BiodataItem extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _BiodataItem({
+    Key? key,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+              width: 150,
+              child: Text(
+                '$label:',
+                style: const TextStyle(
+                    fontWeight: FontWeight.w600, color: Colors.black87),
+              )),
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(color: Colors.black54),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
