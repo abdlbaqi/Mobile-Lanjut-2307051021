@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/screens/register_page.dart';
+import 'package:myapp/screens/login_page.dart';
 import '../widgets/glass_container.dart';
 import 'dashboard_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  bool _obscurePassword = true; // untuk toggle icon mata
-  final _formKey = GlobalKey<FormState>(); // key untuk form
+class _RegisterPageState extends State<RegisterPage> {
+  bool _obscurePassword = true;
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -20,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // Background gradient biru
+        // Latar belakang gradasi biru
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -39,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Logo aplikasi
+                  // Icon Register
                   GlassContainer(
                     blur: 15,
                     opacity: 0.2,
@@ -47,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: const Padding(
                       padding: EdgeInsets.all(30),
                       child: Icon(
-                        Icons.account_balance_wallet,
+                        Icons.person_add_alt_1,
                         size: 80,
                         color: Colors.white,
                       ),
@@ -57,16 +58,16 @@ class _LoginPageState extends State<LoginPage> {
 
                   // Judul
                   const Text(
-                    'Welcome Back',
+                    'Create Account',
                     style: TextStyle(
-                      fontSize: 32,
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Login to continue',
+                    'Please fill the form to register',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white.withOpacity(0.8),
@@ -74,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 40),
 
-                  // Form login
+                  // Form Register
                   GlassContainer(
                     blur: 10,
                     opacity: 0.15,
@@ -84,6 +85,39 @@ class _LoginPageState extends State<LoginPage> {
                         key: _formKey,
                         child: Column(
                           children: [
+                            // Input Nama Lengkap
+                            TextFormField(
+                              controller: _nameController,
+                              decoration: InputDecoration(
+                                labelText: 'Full Name',
+                                labelStyle:
+                                    const TextStyle(color: Colors.white70),
+                                prefixIcon: const Icon(Icons.person,
+                                    color: Colors.white70),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: Colors.white.withOpacity(0.3),
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: const BorderSide(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                              style: const TextStyle(color: Colors.white),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Nama tidak boleh kosong';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 20),
+
                             // Input Email
                             TextFormField(
                               controller: _emailController,
@@ -164,27 +198,18 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             const SizedBox(height: 30),
 
-                            // Tombol Login
+                            // Tombol Register
                             SizedBox(
                               width: double.infinity,
                               height: 55,
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    // Jika semua input valid
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            const DashboardPage(),
-                                      ),
-                                    );
-                                  } else {
-                                    // Jika belum diisi
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'Harap isi email dan password terlebih dahulu'),
+                                            const LoginPage(),
                                       ),
                                     );
                                   }
@@ -198,7 +223,7 @@ class _LoginPageState extends State<LoginPage> {
                                   elevation: 5,
                                 ),
                                 child: const Text(
-                                  'Login',
+                                  'Register',
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -206,38 +231,29 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  "Belum punya akun?",
-                                  style: TextStyle(color: Colors.white70),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => const RegisterPage()),
-                                    );
-                                  },
-                                  child: const Text(
-                                    "Daftar di sini",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
+                  const SizedBox(height: 20),
+
+                 
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'Already have an account? Login',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              
             ),
           ),
         ),
