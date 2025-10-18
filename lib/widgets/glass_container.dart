@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
-/// Widget untuk membuat efek glassmorphism
-/// Memberikan tampilan kaca buram yang modern
+
 class GlassContainer extends StatelessWidget {
   final Widget child;
   final double blur;

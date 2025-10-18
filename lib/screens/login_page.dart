@@ -11,8 +11,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _obscurePassword = true; // untuk toggle icon mata
-  final _formKey = GlobalKey<FormState>(); // key untuk form
+  bool _obscurePassword = true; 
+  final _formKey = GlobalKey<FormState>(); 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // Background gradient biru
+        
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,

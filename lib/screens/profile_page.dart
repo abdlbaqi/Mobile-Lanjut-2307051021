@@ -54,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
         currentIndex: _currentIndex,
         onTap: (i) {
           if (i == 0) {
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const DashboardPage()),
             );
@@ -71,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
       );
 }
 
-// 🔹 Header tanpa tombol back
+
 class _ProfileHeader extends StatelessWidget {
   const _ProfileHeader();
 
